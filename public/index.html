@@ -160,7 +160,7 @@ body.pathson #credit{display:none}
 
 :root{--backdrop:#0d1a3a;--backdrop2:#050914;--panel:rgba(9,15,32,.9);--line:rgba(120,175,235,.22);--ink:#e6edf8;--muted:#8fa2c2;--accent:#57e0ff}
 body{background:radial-gradient(ellipse at 60% 55%,#1c1f4a 0%,rgba(20,24,60,0) 55%),radial-gradient(ellipse at 30% 30%,#10254d 0%,#070c1c 70%)}
-#stars{position:fixed;inset:0;z-index:0;pointer-events:none}#stage{z-index:1}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}#sky{position:fixed;inset:0;z-index:0;pointer-events:none}/* a faint glow that traces the real outline of whatever is drawn: head, brain or a pulled-out piece */#gl{filter:drop-shadow(0 0 7px rgba(87,224,255,.28)) drop-shadow(0 0 26px rgba(120,130,255,.2))}@media (max-width:899px){#gl{filter:drop-shadow(0 0 5px rgba(87,224,255,.28)) drop-shadow(0 0 16px rgba(120,130,255,.18))}}#stage{z-index:1}
 #topbar{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);z-index:8;display:flex;align-items:center;gap:10px;padding:12px 18px;pointer-events:none}
 #topbar>*{pointer-events:auto}
 .brand{display:flex;align-items:center;gap:8px;margin-right:10px;font-family:var(--serif);font-size:20px;color:#eef3fb}.brand svg{width:26px;height:26px}
@@ -526,7 +526,7 @@ body.intro #gl{transition:opacity 1.1s ease}
 #mLabels .mtag.cond{border-color:rgba(255,160,160,.5);color:#ffd9d9}
 @media (max-width:599px){ #labels,#lines{display:none!important} }
 @media (max-width:899px){
-  #tree.dock{left:8px!important;right:8px!important;width:auto!important;top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;max-height:46vh;border-radius:16px}
+  #tree.dock{left:8px!important;right:8px!important;width:auto!important;top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;max-height:46vh;border-radius:16px}#tree.dock{height:min(46vh,360px)!important;max-height:min(46vh,360px)!important;box-sizing:border-box}
   #tree.dock .tcol .tnode{max-width:100%}
   #pulled{left:8px!important;right:8px!important;transform:none!important;max-width:none!important;border-radius:16px!important;padding:10px 12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important}
   #pieceRegions{flex-wrap:nowrap!important;overflow-x:auto;padding-bottom:4px}#pieceRegions .preg{flex:0 0 auto}
@@ -541,7 +541,7 @@ body.intro #gl{transition:opacity 1.1s ease}
 /* ---- enlarged pin with its full name ---- */
 
 #pinFloat{position:fixed;z-index:30;display:none;pointer-events:none;padding:5px 13px;border-radius:999px;font:700 13.5px var(--sans);color:#0b1024;background:var(--c);border:2px solid rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(0,0,0,.35),0 0 22px var(--c);white-space:nowrap}
-#pinFloat.on{display:block;animation:pinpop .14s ease-out}
+#pinFloat.on{display:block;animation:pinpop .14s ease-out}@media (hover:none){#pinFloat.on{pointer-events:auto;cursor:pointer}}
 @keyframes pinpop{from{transform:scale(.7);opacity:.4}to{transform:none;opacity:1}}
 
 /* ---- Layers mode ---- */
@@ -552,6 +552,10 @@ body.layersmode:not(.condplay) #labels,body.layersmode:not(.condplay) #lines,bod
 #layersPanel .lyh{position:relative;padding:12px 40px 10px 14px;border-bottom:1px solid rgba(140,190,240,.14)}
 #layersPanel .lyh b{display:block;font:600 16px var(--serif);color:#fff}#layersPanel .lyh span{font-size:12px;color:#8fa2c2}
 #layersPanel .lyx{all:unset;position:absolute;top:10px;right:12px;cursor:pointer;color:#9fb0c8;font-size:18px}
+#lyTip{position:fixed;z-index:45;display:none;pointer-events:none;max-width:280px;padding:9px 12px;border-radius:10px;background:rgba(9,14,30,.96);border:1px solid rgba(140,190,240,.3);box-shadow:0 10px 26px rgba(0,0,0,.45);font:12.5px/1.4 var(--sans)}#lyTip.on{display:block}#lyTip b{display:block;font:600 13.5px var(--serif);color:#fff;margin-bottom:2px}#lyTip span{display:block;color:#c9d7ea}#lyTip em{display:block;margin-top:4px;font-style:normal;font-size:11.5px;color:#57e0ff}
+@media (hover:hover) and (min-width:900px){#layersPanel li small,#layersPanel li:hover small,#layersPanel li.lit small{display:none!important}}
+@media (hover:none),(max-width:899px){#lyTip{display:none!important}}
+#introCap,#ctxHint,#coach{display:none!important}
 #layersPanel .lyl{list-style:none;margin:0;padding:6px;overflow:auto;flex:1}
 #layersPanel li{display:flex;gap:10px;padding:7px 8px;border-radius:10px;cursor:default;transition:background .15s}
 #layersPanel li>i{flex:0 0 10px;border-radius:5px;align-self:stretch;min-height:28px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
@@ -864,6 +868,39 @@ body.pieceon #ctxHint,body.touring #ctxHint{display:none}
  #welcome h3,#welcome .wlh{font-size:10px!important;margin:4px 0 6px!important}
 }
 
+
+
+/* phones: the short play sheet shows the name, the current step and the play controls, with Show more below them */
+@media (max-width:899px){
+ #info.compact:not(.dive){max-height:min(320px,50vh)!important}
+ #info.compact:not(.dive) .condhead{padding-bottom:30px!important}
+ #info.compact:not(.dive) .condhead p.grp,#info.compact:not(.dive) .condhead #legend,#info.compact:not(.dive) .condhead #repBtn,#info.compact:not(.dive) .condhead #treatBtn,#info.compact:not(.dive) .condhead .row:has(#repBtn),#info.compact:not(.dive) .condhead .row:has(#treatBtn){display:none!important}
+ #info.compact:not(.dive) .condhead h2{font-size:18px!important;line-height:1.25;margin:0 0 2px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #info.compact:not(.dive) .condhead #stageText{font-size:14px!important;line-height:1.35;margin:2px 0 6px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:0!important;height:auto!important}
+ #info.compact:not(.dive) .sheetmore{padding:8px 0 6px!important}
+/* phones: the card view keeps its name, Full view and Close on one row, and drops the rest of the heading while you read */
+ #info.dive .dvhead{flex-wrap:wrap!important;align-items:center!important;gap:6px!important}
+ #info.dive .dvhead .viewpill,#info.dive .dvhead #close{flex:0 0 auto;margin:0!important;white-space:nowrap;align-self:center!important;order:1}
+ #info.dive .dvhead .viewpill{margin-left:auto!important}
+ #info.dive .dvhead .dvtitle{order:2;flex:1 1 100%!important;min-width:0!important}
+ #info.dive .dvhead .dvtitle h2{font-size:21px!important}
+ #info.dive.dscroll .dvhead{flex-wrap:nowrap!important}
+ #info.dive.dscroll .dvhead .dvtitle{order:0;flex:1 1 0!important}
+ #info.dive.dscroll .dvhead .dvtitle h2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #info.dive.dscroll .dvhead{padding:8px 12px 7px!important}
+ #info.dive.dscroll .dvhead #allConds,#info.dive.dscroll .dvhead p.grp{display:none!important}
+ #info.dive.dscroll .dvhead .dvtitle h2{font-size:17px!important;margin:0!important}
+}
+/* phones: the "what did I tap" card hugs its text just under the search bar (a desktop rule pinned its bottom too, which stretched it into a tall empty box) */
+@media (max-width:899px){ #pathCard{top:calc(112px + env(safe-area-inset-top,0px))!important;bottom:auto!important;left:8px!important;right:8px!important;max-width:none!important;height:auto!important;max-height:40vh;overflow:auto;padding:10px 34px 10px 12px!important;font-size:13px} }
+/* phones: the condition player folds down while the text below is read */
+@media (max-width:899px){
+ #info.hscroll .condhead{padding-top:8px!important;padding-bottom:6px!important}
+ #info.hscroll .condhead p.grp,#info.hscroll .condhead #legend,#info.hscroll .condhead #repBtn,#info.hscroll .condhead #treatBtn,#info.hscroll .condhead .row:has(#repBtn),#info.hscroll .condhead .row:has(#treatBtn),#info.hscroll .condhead .sheethandle,#info.hscroll .condhead #allConds,#info.hscroll .condhead .cardbtn{display:none!important}
+ #info.hscroll .condhead .chrow{position:absolute;top:6px;right:8px;margin:0!important;z-index:2}
+ #info.hscroll .condhead h2{font-size:16.5px!important;line-height:1.25;margin:0 90px 2px 0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #info.hscroll .condhead #stageText{font-size:13.5px!important;line-height:1.35;margin:2px 0 4px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:0!important;height:auto!important}
+}
 /* phones: the condition sheet opens taller and scrolls smoothly; a Show more pill sits at the foot of the short sheet */
 @media (max-width:899px){
  #info{max-height:72vh;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
@@ -915,6 +952,8 @@ body.pieceon #ctxHint,body.touring #ctxHint{display:none}
 <script>
 (async function(){
 "use strict";
+/* three r128 LogLuv chunk leaves two vectors partly set, which the Windows shader compiler warns about */
+{ const K=THREE.ShaderChunk; if(K&&K.encodings_pars_fragment) K.encodings_pars_fragment=K.encodings_pars_fragment.replace("vec4 vResult;","vec4 vResult = vec4( 0.0 );").replace("vec3 Xp_Y_XYZp;","vec3 Xp_Y_XYZp = vec3( 0.0 );") }
 const META=JSON.parse(document.getElementById('meta').textContent);
 
 /* ---------- structure dictionary ---------- */
@@ -1167,7 +1206,7 @@ float tLsS(vec3 p, float S){
   #undef SC
   #undef RU
   gL2=b2>0.0?l2:l1; gM=b1-max(b2,0.0); return l1; }
-float tLs(vec3 p){ float l=tLsS(p,1.0); if(l>99.5&&l<116.5){ float a=gL2, m=gM; float l2=tLsS(p,2.0); if(l2>99.5&&l2<116.5) return l2; gL2=a; gM=m; } return l; }
+float tLs(vec3 p){ float l=tLsS(p,1.0); float r=l; if(l>99.5&&l<116.5){ float a=gL2, m=gM; float l2=tLsS(p,2.0); if(l2>99.5&&l2<116.5) r=l2; else { gL2=a; gM=m; } } return r; }
 float tT(vec3 p){return texture(T,U(p)).r;}
 float tL(vec3 p){return floor(texture(L,U(p)).r*255.0+0.5);}
 float tD(vec3 p){return texture(D,U(p)).r*63.75;}
@@ -1198,7 +1237,7 @@ vec4 headCol(vec3 p,float od){
   if(p.z<-44.0&&od>2.6) discard;
   if(mode==4){ od = od<7.0 ? od*0.4 : 2.8+(od-7.0)*1.525; }
   float n=vn(p*0.9), n2=vn(p*0.25);
-  vec3 c; float ct; float hid=0.0;
+  vec3 c=vec3(0.0); float ct=0.0; float hid=0.0;
   if(od<1.0){c=vec3(0.16,0.17,0.21);ct=0.09;hid=166.0;}
   else if(od<1.3){c=vec3(0.80,0.78,0.76);ct=0.4;hid=165.0;}
   else if(od<1.45){c=vec3(0.30,0.26,0.26);ct=0.2;hid=164.0;}
@@ -1428,7 +1467,7 @@ void main(){
   }
   if(fillGM>0.5) t=0.56;
   // ---------- color ----------
-  vec3 c;
+  vec3 c=vec3(0.0);
   vec3 cCSF=vec3(0.16,0.17,0.21), mem=vec3(0.42,0.30,0.31), gm=vec3(0.60,0.47,0.46), gm2=vec3(0.70,0.58,0.55), wm=vec3(0.94,0.90,0.83);
   float tt= csf>0.5 ? 0.22 : t;
   if(mode==2){
@@ -1738,7 +1777,7 @@ function doHover(now){
 }
 let down=null, dragging=false;
 canvas.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];dragging=false});
-canvas.addEventListener('pointerup',e=>{ if(!down)return; const moved=Math.hypot(e.clientX-down[0],e.clientY-down[1]); down=null; dragging=false; if(moved>6)return;
+canvas.addEventListener('pointerup',e=>{ if(!down)return; const moved=Math.hypot(e.clientX-down[0],e.clientY-down[1]); down=null; dragging=false; if(moved>6||window.__holdEat)return;
   if(e.button!==0)return; if(activeCond)return; const h=pick(e.clientX,e.clientY,true); if(h){ if(pulled&&h.id===pulled.id)return; structClick(h.id,e.clientX,e.clientY);} else if(!pulled){ deselect(); if(typeof hideNxTree==='function')hideNxTree(); } });
 controls.addEventListener('start',()=>{dragging=true;tip.style.display='none'});
 canvas.addEventListener('pointerleave',()=>{tip.style.display='none';hoverId=0;syncHover()});
@@ -2900,6 +2939,14 @@ document.getElementById('index').open=false;
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();sliceDirty=true}
 setProg(85,'Preparing the view…'); await yieldF();
 addEventListener('resize',resize);resize();
+/* phones and in-app viewers can change the viewport (browser bar, picture-in-picture, the host sheet) without a resize event;
+   the canvas box follows through CSS but the camera would keep the old shape, and pins and labels would drift off the brain.
+   So the size is checked every frame and a resize is sent whenever anything disagrees. */
+{ let lw=innerWidth,lh=innerHeight,cw=canvas.clientWidth,ch=canvas.clientHeight;
+  const fire=()=>{ lw=innerWidth; lh=innerHeight; cw=canvas.clientWidth; ch=canvas.clientHeight; dispatchEvent(new Event('resize')) };
+  const chk=()=>{ if(innerWidth!==lw||innerHeight!==lh||canvas.clientWidth!==cw||canvas.clientHeight!==ch)fire(); requestAnimationFrame(chk) }; requestAnimationFrame(chk);
+  if(window.visualViewport)visualViewport.addEventListener('resize',()=>{ if(innerWidth!==lw||innerHeight!==lh)fire() });
+  addEventListener('resize',()=>{ lw=innerWidth; lh=innerHeight; cw=canvas.clientWidth; ch=canvas.clientHeight }); }
 paintSurface(); buildIndex(); buildSearch(); setPlane('sag',false);
 {const r=surfG.boundingSphere.radius,dist=fitDist(r);
  controls.target.copy(center); camera.position.copy(center).add(new THREE.Vector3(1,-0.12,0.18).normalize().multiplyScalar(dist*1.25));}
@@ -3048,7 +3095,15 @@ const closeBtn=document.getElementById('close');
         if(infoEl.classList.contains('compact')&&dy<-24){ sy=null; infoEl.__setC&&infoEl.__setC(false) }
         else if(!infoEl.classList.contains('compact')&&st<=0&&infoEl.scrollTop<=0&&dy>60){ sy=null; infoEl.__setC&&infoEl.__setC(true) } },{passive:true});
       infoEl.addEventListener('touchend',()=>{ sy=null },{passive:true}); }
-    infoEl.__setC=setC; } } }
+    infoEl.__setC=setC;
+    /* while reading, the player at the top folds down to the name, the current step and the controls, so the text gets the room */
+    if(!infoEl.__fold){ infoEl.__fold=1; infoEl.addEventListener('scroll',()=>{ const on=infoEl.classList.contains('hscroll');
+      const dv=infoEl.classList.contains('dive'), don=infoEl.classList.contains('dscroll');
+      if(dv&&innerWidth<900){ if(!don&&infoEl.scrollTop>30)infoEl.classList.add('dscroll'); else if(don&&infoEl.scrollTop<=2)infoEl.classList.remove('dscroll') } else if(don)infoEl.classList.remove('dscroll');
+      if(!activeCond||innerWidth>=900||infoEl.classList.contains('compact')||dv){ if(on)infoEl.classList.remove('hscroll'); return }
+      const room=infoEl.scrollHeight-infoEl.clientHeight;
+      if(!on&&infoEl.scrollTop>40&&room>220)infoEl.classList.add('hscroll'); else if(on&&infoEl.scrollTop<=2)infoEl.classList.remove('hscroll') },{passive:true}); }
+    infoEl.classList.remove('hscroll','dscroll'); } } }
 {const _selCB=select; select=function(id){ infoEl.prepend(closeBtn); _selCB(id) }}
 {const _scl=showCondList; showCondList=function(){ infoEl.prepend(closeBtn); _scl() }}
 document.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse'&&!(e.target.closest&&e.target.closest('.glx'))){tip.style.display='none';tip.classList.remove('gtip')} },true);
@@ -3066,6 +3121,32 @@ function drawStars(){const W=innerWidth,H=innerHeight,d=Math.min(devicePixelRati
     sg.fillStyle=`rgba(${200+rnd()*55|0},${210+rnd()*45|0},255,${a})`;sg.beginPath();sg.arc(x,y,r,0,7);sg.fill();
     if(r>1.3){const g=sg.createRadialGradient(x,y,0,x,y,r*6);g.addColorStop(0,'rgba(190,220,255,.22)');g.addColorStop(1,'rgba(190,220,255,0)');sg.fillStyle=g;sg.fillRect(x-r*6,y-r*6,r*12,r*12)}}}
 drawStars(); addEventListener('resize',drawStars);
+/* ---- living sky: a faint glow around the brain, twinkles, drifting dust, rare comets and a distant satellite. All kept faint. ---- */
+{ const sky=document.createElement('canvas'); sky.id='sky'; sky.setAttribute('aria-hidden','true'); st.after(sky); const cx=sky.getContext('2d');
+  const RM=matchMedia('(prefers-reduced-motion: reduce)'); let W=0,H=0,D=1;
+  const size=()=>{ W=innerWidth; H=innerHeight; D=Math.min(devicePixelRatio||1,2); sky.width=W*D; sky.height=H*D; sky.style.width=W+'px'; sky.style.height=H+'px'; seed() };
+  let tw=[], dust=[]; const R=Math.random;
+  function seed(){ const a=W*H; tw=[...Array(Math.round(Math.min(26,a/26000)))].map(()=>({x:R()*W,y:R()*H,r:0.5+R()*0.8,p:R()*6.28,s:0.25+R()*0.5,c:R()<0.3?'255,225,200':'205,225,255'}));
+    dust=[...Array(Math.round(Math.min(46,a/16000)))].map(()=>({x:R()*W,y:R()*H,r:0.4+R()*1.1,a:0.05+R()*0.12,vx:(R()-0.5)*4,vy:-1-R()*3,d:0.4+R()*0.6})) }
+  size(); addEventListener('resize',size);
+  let comets=[], nextComet=performance.now()+6000+R()*8000, sat=null, nextSat=performance.now()+40000+R()*50000, last=performance.now(), skip=0;
+  function comet(now){ const fromLeft=R()<0.5, ang=(fromLeft?0.35:Math.PI-0.35)+(R()-0.5)*0.35, sp=(420+R()*380)*Math.max(0.7,Math.min(1.3,W/1200));
+    comets.push({x:fromLeft?-40-R()*W*0.2:W+40+R()*W*0.2,y:-30+R()*H*0.45,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,len:70+R()*110,life:0,max:(W+H)/sp+0.6,hue:R()<0.7?'190,230,255':'255,220,190',w:0.8+R()*0.6}); }
+  function frame(now){ requestAnimationFrame(frame); if(document.hidden)return; const dt=Math.min(0.05,(now-last)/1000); last=now;
+    const busy=comets.length||sat; if(!busy&&(skip=(skip+1)%2))return;   /* half rate when only the slow things are moving */
+    cx.setTransform(D,0,0,D,0,0); cx.clearRect(0,0,W,H); if(RM.matches)return;
+    const k=busy?dt:dt*2;
+    for(const p of tw){ const a=Math.max(0,Math.sin(now*0.001*p.s+p.p)); if(a<0.05)continue; cx.fillStyle=`rgba(${p.c},${(a*a*0.55).toFixed(3)})`; cx.beginPath(); cx.arc(p.x,p.y,p.r*(0.7+0.5*a),0,6.2832); cx.fill() }
+    for(const p of dust){ p.x+=p.vx*k*p.d; p.y+=p.vy*k*p.d; if(p.y<-4){p.y=H+4;p.x=R()*W} if(p.x<-4)p.x=W+4; if(p.x>W+4)p.x=-4; cx.fillStyle=`rgba(190,215,255,${p.a})`; cx.beginPath(); cx.arc(p.x,p.y,p.r,0,6.2832); cx.fill() }
+    if(now>nextComet){ comet(now); nextComet=now+9000+R()*14000 }
+    comets=comets.filter(c=>{ c.life+=dt; c.x+=c.vx*dt; c.y+=c.vy*dt; if(c.life>c.max)return false;
+      const fade=Math.min(1,c.life/0.35)*Math.min(1,(c.max-c.life)/0.5), v=Math.hypot(c.vx,c.vy), tx=c.x-c.vx/v*c.len, ty=c.y-c.vy/v*c.len;
+      const g=cx.createLinearGradient(c.x,c.y,tx,ty); g.addColorStop(0,`rgba(${c.hue},${0.5*fade})`); g.addColorStop(1,`rgba(${c.hue},0)`);
+      cx.strokeStyle=g; cx.lineWidth=c.w; cx.lineCap='round'; cx.beginPath(); cx.moveTo(c.x,c.y); cx.lineTo(tx,ty); cx.stroke();
+      const h=cx.createRadialGradient(c.x,c.y,0,c.x,c.y,5); h.addColorStop(0,`rgba(235,248,255,${0.55*fade})`); h.addColorStop(1,'rgba(235,248,255,0)'); cx.fillStyle=h; cx.fillRect(c.x-5,c.y-5,10,10); return true });
+    if(!sat&&now>nextSat){ const l=R()<0.5; sat={x:l?-6:W+6,y:H*(0.08+R()*0.3),vx:(l?1:-1)*W/(38+R()*20),vy:(R()-0.5)*6,t:0}; nextSat=now+70000+R()*60000 }
+    if(sat){ sat.t+=dt; sat.x+=sat.vx*dt; sat.y+=sat.vy*dt; const bl=0.18+0.14*Math.max(0,Math.sin(sat.t*2.2)); cx.fillStyle=`rgba(230,240,255,${bl})`; cx.beginPath(); cx.arc(sat.x,sat.y,0.9,0,6.2832); cx.fill(); if(sat.x<-10||sat.x>W+10)sat=null } }
+  requestAnimationFrame(frame); }
 /* panels */
 function closePanels(except){ if(except!=='set'){hdr.classList.remove('open');$('tbSettings').setAttribute('aria-pressed','false')}
   if(except!=='list'){idxEl.classList.remove('open');$('tbList').setAttribute('aria-pressed','false')} }
@@ -3212,12 +3293,39 @@ const tmpV=new THREE.Vector3();
 const _tk=nxTick; nxTick=function(dt,now){ _tk(dt,now);
   const show=uiMode==='cond'&&!activeCond&&plane==='sag'; document.body.classList.toggle('pinsaway',uiMode==='cond'&&!activeCond&&plane!=='sag'); pinsEl.style.display=show?'':'none'; if(!show)return;
   const W=innerWidth,H=innerHeight,placed=[];
-  {const fwd=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion); const fc=Math.abs(fwd.dot(clip.normal)); pinsEl.style.opacity=camAnim?'0':String(Math.min(1,Math.max(0,(fc-0.45)/0.3)));} const psig=[camera.position.x,camera.position.y,camera.position.z,controls.target.x,controls.target.y,W,H,filt,posMM,viewOff,viewOffY,camera.zoom*100].map(v=>typeof v==='number'?v.toFixed(1):v).join(); if(psig===window.__psig&&!window.__rot&&!window.__camMoving)return; window.__psig=(window.__rot||window.__camMoving)?'':psig;
-  pinsEl.querySelectorAll('.pin').forEach(b=>{const k=b.dataset.k,[y,z]=PINS[k];const vis=filt==='all'||grpOf(k)===filt;b.style.display=vis?'':'none';if(!vis)return;
-    tmpV.set(plane==='sag'?posMM:-3,y,z).project(camera);let x=(tmpV.x+1)/2*W,yy=(1-tmpV.y)/2*H;
-    if((window.__rot||window.__camMoving)&&b._off){ b.style.transform=`translate(${(x+b._off[0]).toFixed(1)}px,${(yy+b._off[1]).toFixed(1)}px) translate(-50%,-50%)`; return }
-    const x0=x,y0=yy; const bw=b.offsetWidth+3,bh=b.offsetHeight+3;for(let pass=0;pass<4;pass++)for(const p of placed){if(Math.abs(p[0]-x)<(bw+p[2])/2&&Math.abs(p[1]-yy)<(bh+p[3])/2){ if(pass%2)yy=p[1]+(yy>=p[1]?1:-1)*(bh+p[3])/2; else x=p[0]+(x>=p[0]?1:-1)*(bw+p[2])/2 }}
-    b._off=[x-x0,yy-y0]; placed.push([x,yy,bw,bh]);b.style.transform=`translate(${x.toFixed(1)}px,${yy.toFixed(1)}px) translate(-50%,-50%)`});
+  {const fwd=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion); const fc=Math.abs(fwd.dot(clip.normal)); pinsEl.style.opacity=camAnim?'0':String(Math.min(1,Math.max(0,(fc-0.45)/0.3)));} window.__psig='';
+  /* Stable spreading. Anchors are projected every frame, but the overlap layout is only redone when an anchor has really moved (over 1.5 px), the
+     screen size, the filter or the set of pins changes. Between layouts each pin keeps its offset, so tiny camera noise can't reshuffle them.
+     Pins whose anchors coincide (TNH and CM1 share the tonsils) are pushed by a fixed order, never by the sign of a sub-pixel difference. */
+  const pins=[...pinsEl.querySelectorAll('.pin')]; let moving=!!(window.__rot||window.__camMoving); const A=[];
+  pins.forEach((b,i)=>{ const k=b.dataset.k,[y,z]=PINS[k]; const vis=filt==='all'||grpOf(k)===filt; b.style.display=vis?'':'none'; if(!vis)return;
+    tmpV.set(plane==='sag'?posMM:-3,y,z).project(camera); A.push({b,i,x:(tmpV.x+1)/2*W,y:(1-tmpV.y)/2*H}) });
+  /* anything that moves the anchors (a turn, the phone lens easing, re-centring) counts as moving: the pins keep their arrangement and
+     ride along, and re-spread once the anchors have been still for a moment. Re-spreading on every frame of an easing made them flutter. */
+  { const pv=pinsEl.__prev||{}; let mx=0; for(const a of A){ const o=pv[a.i]; if(o)mx=Math.max(mx,Math.abs(o[0]-a.x),Math.abs(o[1]-a.y)) } const np={}; for(const a of A)np[a.i]=[a.x,a.y]; pinsEl.__prev=np;
+    if(mx>0.4)pinsEl.__stillT=performance.now(); }
+  const easing=performance.now()-(pinsEl.__stillT||0)<200;
+  const key=[W,H,filt,A.map(a=>a.i).join('.')].join('|'); const L=pinsEl.__lay;
+  if(easing)moving=true;
+  let redo=!L||L.key!==key; if(!redo&&!moving){ for(const a of A){ const o=L.anc[a.i]; if(!o||Math.abs(o[0]-a.x)>1.5||Math.abs(o[1]-a.y)>1.5){ redo=true; break } } }
+  if((moving&&L&&L.key===key)||!redo){ for(const a of A){ const off=a.b._off||[0,0]; a.b.style.transform=`translate(${Math.round(a.x)+off[0]}px,${Math.round(a.y)+off[1]}px) translate(-50%,-50%)` } return }
+  /* Bounded spreading, redone fresh from the anchors every time (nothing carries over, so a pin pushed while the view was crowded
+     comes home as soon as there's room). Each pin tries spots around its own anchor, nearest first, and takes the first free one;
+     it never travels more than about 1.7 of its widths, so a crowded area can't shove a label off the brain. If nothing near is
+     free, the spot with the least overlap wins. Anchors are rounded and the fixed order breaks ties, so the result is repeatable. */
+  const PIN_CANDS=[[0,0],[0.6,0],[-0.6,0],[0,1.05],[0,-1.05],[0.6,1.05],[-0.6,1.05],[0.6,-1.05],[-0.6,-1.05],[1.15,0],[-1.15,0],[0,2.1],[0,-2.1],[1.15,1.05],[-1.15,1.05],[1.15,-1.05],[-1.15,-1.05],[1.7,0],[-1.7,0],[0.6,2.1],[-0.6,2.1],[0.6,-2.1],[-0.6,-2.1]];
+  /* moving a label outward, away from the middle of the brain, costs extra, so crowded labels squeeze inward onto the brain instead of off its edge */
+  let BCX=W/2, BCY=H/2; try{ const R=window.__brainRect&&window.__brainRect(); if(R&&R.right>R.left){ BCX=(R.left+R.right)/2; BCY=(R.top+R.bottom)/2 } }catch(err){}
+  const anc={};
+  for(const a of A){ const b=a.b, x0=Math.round(a.x), y0=Math.round(a.y); anc[a.i]=[a.x,a.y]; const bw=b.offsetWidth+3,bh=b.offsetHeight+3;
+    const ov=(px,py)=>{ let o=0; for(const p of placed){ const ox=(bw+p[2])/2-Math.abs(p[0]-px), oy=(bh+p[3])/2-Math.abs(p[1]-py); if(ox>0&&oy>0)o+=ox*oy } return o };
+    /* score = distance travelled (in pin widths) + overlap (a full overlap costs as much as travelling 2.5 widths); a free spot near home wins,
+       and a pin would rather overlap a neighbour a little than travel far */
+    let best=null; for(const c of PIN_CANDS){ const px=x0+c[0]*bw, py=y0+c[1]*bh, o=ov(px,py); const pc=b._cand; const out=Math.max(0,Math.hypot(px-BCX,py-BCY)-Math.hypot(x0-BCX,y0-BCY)); const sc=Math.hypot(c[0]*bw,c[1]*bh)/bw+2.5*o/(bw*bh)+1.2*out/bw-(pc&&pc[0]===c[0]&&pc[1]===c[1]?0.35:0); if(!best||sc<best[2]-1e-3)best=[px,py,sc,c] }
+    b._cand=best[3];
+    const x=Math.round(best[0]), yy=Math.round(best[1]);
+    b._off=[x-x0,yy-y0]; placed.push([x,yy,bw,bh,a.i]); b.style.transform=`translate(${x}px,${yy}px) translate(-50%,-50%)` }
+  pinsEl.__lay={key,anc};
 };
 /* layout: keep labels clear of the bar and the hint */
 /* startup view */
@@ -3390,7 +3498,7 @@ nxTreeEl.addEventListener('mouseover',ev=>{ ev.stopImmediatePropagation(); const
   orbit9(); wires9(depth+1); pinClose9();
 },true);
 nxTreeEl.addEventListener('mouseout',ev=>{ if(!nxTreeEl.contains(ev.relatedTarget)){hideGlx()} },true);
-nxTreeEl.addEventListener('click',ev=>{ ev.stopImmediatePropagation(); treeSticky=true;
+nxTreeEl.addEventListener('click',ev=>{ ev.stopImmediatePropagation(); /* this catches every click in the card first, so it has to handle the close button itself */ if(ev.target.closest&&ev.target.closest('#treeclose9')){ hideGlx(); hideNxTree(); return } treeSticky=true;
   const b=ev.target.closest&&ev.target.closest('[data-open]'); if(!b)return; const [kind,id]=b.getAttribute('data-open').split(':');
   if(TOUCH9()&&!b.classList.contains('root')){ const cols=[...nxTreeEl.querySelectorAll('.tcol')], depth=cols.indexOf(b.closest('.tcol'));
     if(depth>=1&&depth<=2&&!(T9.chain[depth]&&T9.chain[depth].id===id)){T9.chain=T9.chain.slice(0,depth).concat([{kind,id}]);render9(depth+1);return} }
@@ -3551,7 +3659,7 @@ function refitNarrow(){ if(innerWidth>=900||pulled)return; const fd=fitDist(surf
    tipEl.querySelector('#coachNext').onclick=()=>showTip(i+1); tipEl.querySelector('#coachSkip').onclick=()=>showTip(TIPS.length) }
  document.getElementById('showTips').onclick=()=>{ document.getElementById('tbSettings').click(); setTimeout(()=>showTip(0),200) };
  setTimeout(()=>{ const v=store.get(KEY); if(v&&!location.search.includes('fresh'))apply(v); restored=true; last=JSON.stringify(snap());
-   setTimeout(()=>{ openHash(); if(store.get(TKEY)!=='done'&&!location.hash&&!location.search.includes('notips'))setTimeout(()=>showTip(0),900) },300) },120);
+   setTimeout(()=>{ openHash() },300) },120);
 }
 
 
@@ -3660,8 +3768,14 @@ function refitNarrow(){ if(innerWidth>=900||pulled)return; const fd=fitDist(surf
  /* labels rest while the brain is being turned */
  let down=null; window.__rot=false; let rotT=0;
  canvas.addEventListener('pointerdown',e=>{ down=[e.clientX,e.clientY] });
- addEventListener('pointermove',e=>{ if(!down||!e.buttons)return; if(Math.hypot(e.clientX-down[0],e.clientY-down[1])>5){ window.__rot=true; clearTimeout(rotT) } });
- addEventListener('pointerup',()=>{ down=null; if(window.__rot){ clearTimeout(rotT); rotT=setTimeout(()=>{window.__rot=false; sliceDirty=true},160) } });
+ let lastMv=0;
+ addEventListener('pointermove',e=>{ if(!down||!e.buttons)return; if(Math.hypot(e.clientX-down[0],e.clientY-down[1])>5){ window.__rot=true; lastMv=performance.now(); clearTimeout(rotT) } });
+ /* a touch can end with pointercancel (a drag turning into a pinch, or the browser taking the gesture) instead of pointerup;
+    any of these ends the turn, otherwise the pins stay frozen in an old spread for good */
+ const endRot=()=>{ down=null; if(window.__rot){ clearTimeout(rotT); rotT=setTimeout(()=>{window.__rot=false; sliceDirty=true},160) } };
+ addEventListener('pointerup',endRot); addEventListener('pointercancel',endRot); addEventListener('blur',endRot); document.addEventListener('visibilitychange',endRot);
+ /* and a watchdog: no movement for most of a second means the turn is over */
+ { const _tkW=nxTick; nxTick=function(dt,now){ _tkW(dt,now); if(window.__rot&&performance.now()-lastMv>900){ window.__rot=false; down=null; sliceDirty=true } } }
  /* the cut bar never slides off the screen */
  const bar=document.getElementById('sliceBar'); let bt=0;
  const _tkB=nxTick; nxTick=function(dt,now){ _tkB(dt,now); if(now-bt<300||innerWidth<900)return; bt=now; const w=bar.offsetWidth; const c=(innerWidth-356)/2; const x=Math.max(8+w/2,Math.min(innerWidth-8-w/2,c)); bar.style.left=x+'px' };
@@ -4019,9 +4133,17 @@ window.__ox=()=>{camera.updateMatrixWorld();const o=outlineX();const q=center.cl
  addEventListener('keydown',e=>{ if(e.key==='Escape'&&menu.classList.contains('on')){ close(); e.stopImmediatePropagation() } },true);
  addEventListener('wheel',()=>close(),{passive:true}); addEventListener('resize',close);
  /* touch: press and hold for the same menu */
- let lp=null; canvas.addEventListener('touchstart',e=>{ if(e.touches.length!==1)return; const t0=e.touches[0]; lp={x:t0.clientX,y:t0.clientY,tm:setTimeout(()=>{ if(!lp)return; openAt({target:canvas,clientX:lp.x,clientY:lp.y}); lp=null },550)} },{passive:true});
- canvas.addEventListener('touchmove',e=>{ if(lp&&Math.hypot(e.touches[0].clientX-lp.x,e.touches[0].clientY-lp.y)>10){clearTimeout(lp.tm);lp=null} },{passive:true});
- canvas.addEventListener('touchend',()=>{ if(lp){clearTimeout(lp.tm);lp=null} },{passive:true});
+ /* a slightly shorter hold that tolerates a little finger drift; once it fires the brain stops turning under the finger,
+    the phone gives a small buzz, and lifting the finger no longer counts as a tap that would open a card over the menu */
+ let lp=null, held=false; const LP_MS=450, LP_PX=16;
+ const clearLp=()=>{ if(lp){ clearTimeout(lp.tm); lp=null } };
+ canvas.addEventListener('touchstart',e=>{ if(e.touches.length!==1){ clearLp(); return } const t0=e.touches[0];
+   lp={x:t0.clientX,y:t0.clientY,tm:setTimeout(()=>{ if(!lp)return; const q=lp; lp=null; held=true; try{ controls.enabled=false }catch(err){} try{ navigator.vibrate&&navigator.vibrate(12) }catch(err){} openAt({target:canvas,clientX:q.x,clientY:q.y}) },LP_MS)} },{passive:true});
+ canvas.addEventListener('touchmove',e=>{ if(lp&&Math.hypot(e.touches[0].clientX-lp.x,e.touches[0].clientY-lp.y)>LP_PX)clearLp() },{passive:true});
+ const endHold=()=>{ clearLp(); if(held){ setTimeout(()=>{ held=false; try{ controls.enabled=true }catch(err){} },350) } };
+ canvas.addEventListener('touchend',endHold,{passive:true}); canvas.addEventListener('touchcancel',endHold,{passive:true});
+ /* the tap-to-select handler reads this and skips the lift that ends a hold */
+ Object.defineProperty(window,'__holdEat',{get:()=>held,configurable:true});
 }
 
 
@@ -4099,7 +4221,7 @@ const smoothstep01=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)};
    if(R.ves)setVessels(true);
    /* land on the sagittal view with key labels */
    setPlane('sag',false); posEl.value=DEFAULT.sag; posEl.dispatchEvent(new Event('input')); setHead(R.head);
-   const kb=document.querySelector('[data-dens="key"]'); if(kb)kb.click(); window.__labelsOff=false; const lp=document.getElementById('tbLabels'); if(lp)lp.innerHTML='Labels <i>Key</i>'; const lk=document.querySelector('#labMenu [data-l="key"]'); if(lk)lk.click();
+   const kb=document.querySelector('[data-dens="key"]'); if(kb)kb.click(); /* labels start off on every device; Key stays the density for when they're turned on */ const lo=document.querySelector('#labMenu [data-l="off"]'); if(lo)lo.click(); else { window.__labelsOff=true; const lp=document.getElementById('tbLabels'); if(lp)lp.innerHTML='Labels <i>Off</i>' }
    camera.position.copy(R.home); controls.target.copy(R.t0); controls.update();
    document.body.classList.remove('intro'); document.body.classList.add('hintgone'); try{analyseSlice()}catch(e){} sliceDirty=true; setTimeout(()=>cap.classList.remove('on'),snap?0:2600) }
  function intro(){ if(activeCond||pulled){window.__introSkip=true;return}
@@ -4129,7 +4251,7 @@ const smoothstep01=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)};
  ['wheel','keydown'].forEach(ev=>addEventListener(ev,()=>{ if(run)stop(true) },{capture:true,passive:true}));
  {const _oc=openCond; openCond=function(c){ if(run)stop(true); _oc(c) };}
  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
- if(RM&&!deep){ window.__introSkip=true; setTimeout(()=>{ if(activeCond||pulled)return; frameCamera(); const k=document.querySelector('#labMenu [data-l="key"]'); if(k&&window.__labelsOff)k.click(); sliceDirty=true },200) }
+ if(RM&&!deep){ window.__introSkip=true; setTimeout(()=>{ if(activeCond||pulled)return; frameCamera(); sliceDirty=true },200) }
  if(!deep&&!RM){ let tries=0; const go=()=>{ tries++; if(!camAnim&&!activeCond&&!pulled) intro(); else if(tries<40) setTimeout(go,60); else window.__introSkip=true }; setTimeout(go,160) }
  else window.__introSkip=true;
  window.__intro=intro;
@@ -4335,18 +4457,37 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
     take(document.getElementById('wholeGuide')); take(document.getElementById('wholeGuideChip')); if(pulled)take(document.getElementById('pulled'));
     return top===null?null:top-10 };
   window.__mBot=()=>{ const c=cardTop(); return c===null?1e9:c };
-  let z=1;
-  const _tk=nxTick; nxTick=function(dt,now){ _tk(dt,now); if(innerWidth>=900){ window.__phoneWY=null; return }
-    if(camAnim||!window.__brainRect){ window.__phoneWY=null; return }
-    const BR=window.__brainRect(); if(!BR){ window.__phoneWY=null; return }
-    const F=freeArea(), c=cardTop(); const top=F.top+6, bot=Math.min(F.bot,c===null?1e9:c)-6, W=innerWidth;
-    const labels=document.getElementById('mLabels')&&document.getElementById('mLabels').style.display!=='none'&&document.querySelectorAll('#mLabels .mtag').length>0;
+  let z=1, zT=null, wyT=null, heldC=null, heldT=0;
+  const _tk=nxTick; nxTick=function(dt,now){ _tk(dt,now); if(innerWidth>=900){ window.__phoneWY=null; zT=wyT=null; return }
+    if(!window.__brainRect){ window.__phoneWY=null; zT=wyT=null; return }
+    /* during a camera move, fit and centre for where the camera will land, so the lens and centre travel together with it
+       instead of waiting and then making a second move of their own (the bounce after closing a condition) */
+    let BR=null;
+    if(camAnim&&camAnim.tp&&camAnim.tt){ const sp=camera.position.clone(), sq=camera.quaternion.clone();
+      camera.position.copy(camAnim.tp); camera.quaternion.setFromRotationMatrix(new THREE.Matrix4().lookAt(camAnim.tp,camAnim.tt,camera.up)); camera.updateMatrixWorld();
+      try{ BR=window.__brainRect() }catch(err){} camera.position.copy(sp); camera.quaternion.copy(sq); camera.updateMatrixWorld() }
+    else if(camAnim){ window.__phoneWY=null; zT=wyT=null; return }
+    else BR=window.__brainRect();
+    if(!BR){ window.__phoneWY=null; return }
+    /* switching conditions closes one card on touch-down and opens the next on release; hold the card's space briefly so the brain doesn't grow and shrink in between */
+    const c0=cardTop(); let c=c0; if(c0!==null){ heldC=c0; heldT=now } else if(heldC!==null&&now-heldT<700)c=heldC; else heldC=null;
+    /* every card gets the same space (the phone card has one fixed height, see #tree.dock), so swapping cards never moves the brain */
+    const vTop=innerHeight-10-Math.min(innerHeight*0.46,360)-10; if(!pulled&&c!==null&&c>vTop)c=vTop;   /* with no card up the brain sits centred */
+    const F=freeArea(); const top=F.top+6, bot=Math.min(F.bot,c===null?1e9:c)-6, W=innerWidth;
+    /* keep the label bands whenever labels are switched on, even while a card hides the tags, so the brain doesn't grow and shrink */
+    const bcl=document.body.classList, labOn=!window.__labelsOff&&plane!=='none'&&!pulled&&!(bcl.contains('condmode')&&!activeCond);
+    const labels=labOn||(document.getElementById('mLabels')&&document.getElementById('mLabels').style.display!=='none'&&document.querySelectorAll('#mLabels .mtag').length>0);
     const band=labels?Math.min(52,Math.max(0,(bot-top)*0.13)):0;
     const availH=Math.max(80,bot-top-2*band), availW=W-16, bh=Math.max(1,BR.bottom-BR.top)*(labels&&headOn?1.18:1), bw=Math.max(1,BR.right-BR.left);
     let zt=Math.min(1,z*Math.min(availH/bh,availW/bw)); zt=Math.max(0.3,zt);
-    z+=(zt-z)*Math.min(1,dt*6); if(Math.abs(zt-z)<0.002)z=zt; if(Math.abs(camera.zoom-z)>0.0005){ camera.zoom=z; camera.updateProjectionMatrix() }
+    /* dead bands: this loop measures the brain it just moved, so pixel rounding and a card whose height breathes by a pixel (the pulsing
+       play chip) used to keep nudging the lens and the centre every frame, which re-spread the condition pins into a different
+       arrangement each time. Once settled, small differences are ignored. */
+    if(zT===null||Math.abs(zt-zT)>0.015)zT=zt;
+    z+=(zT-z)*Math.min(1,dt*6); if(Math.abs(zT-z)<0.002)z=zT; if(Math.abs(camera.zoom-z)>0.0005){ camera.zoom=z; camera.updateProjectionMatrix() }
     /* centre the brain in the space between the top bar and whatever sheet is up */
-    const curC=(BR.top+BR.bottom)/2, want=(top+bot)/2; window.__phoneWY=viewOffY+(curC-want) }; }
+    const curC=(BR.top+BR.bottom)/2, want=(top+bot)/2; const wyN=viewOffY+(curC-want);
+    if(wyT===null||Math.abs(wyN-wyT)>3)wyT=Math.round(wyN); window.__phoneWY=wyT }; }
 
 
 
@@ -4357,6 +4498,8 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
 /* ================= condition pins show an enlarged full name when you point at them (or touch them) =================
    A floating enlarged copy is drawn over the pin, so the pin itself never changes size and nothing re-spaces. */
 { const fl=document.createElement('div'); fl.id='pinFloat'; document.body.appendChild(fl); let cur=null, hold=0;
+  /* on touch screens the enlarged name is the target people tap a second time, so it passes the tap to its pin (desktop keeps it click-through) */
+  fl.addEventListener('click',e=>{ if(!cur||!matchMedia('(hover: none)').matches)return; e.stopPropagation(); e.preventDefault(); cur.click() });
   const show=b=>{ const c=CONDS.find(x=>x.key===b.dataset.k); if(!c)return; cur=b; fl.textContent=c.name; fl.style.setProperty('--c',getComputedStyle(b).getPropertyValue('--c')); fl.classList.add('on'); place() };
   const hide=()=>{ cur=null; fl.classList.remove('on') };
   const place=()=>{ if(!cur)return; const r=cur.getBoundingClientRect(); if(!r.width){ hide(); return } const w=fl.offsetWidth, h=fl.offsetHeight; const fx=Math.max(6,Math.min(innerWidth-w-6,r.left+r.width/2-w/2)), fy=r.top+r.height/2-h/2; fl.style.left=fx+'px'; fl.style.top=fy+'px';
@@ -4394,7 +4537,7 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
  const placed=new Set(L.flatMap(x=>x.cond)); CONDS.forEach(c=>{ if(!placed.has(c.key)){ (L.find(x=>x.id===201)).cond.push(c.key); placed.add(c.key) } });
  const panel=document.createElement('div'); panel.id='layersPanel'; panel.setAttribute('role','dialog'); panel.setAttribute('aria-label','Layers of the head and brain');
  panel.innerHTML='<div class="lyh"><b>Layers</b><span>Outside \u2192 in. Point at a layer or a condition to see it on the cut.</span><button class="lyx" aria-label="Close layers">\u00d7</button></div><div class="lyslot" aria-hidden="true"></div><ol class="lyl"></ol>';
- document.body.appendChild(panel); const list=panel.querySelector('.lyl');
+ document.body.appendChild(panel); const list=panel.querySelector('.lyl'); /* definitions sit in a card beside the panel, never over the rows */ const lyTip=document.createElement('div'); lyTip.id='lyTip'; lyTip.setAttribute('aria-hidden','true'); document.body.appendChild(lyTip); const lyIdle=()=>lyTip.classList.remove('on'); const lyShow=(html,el)=>{ lyTip.innerHTML=html; lyTip.classList.add('on'); const P=panel.getBoundingClientRect(), r=el.getBoundingClientRect(), w=lyTip.offsetWidth, h=lyTip.offsetHeight; let x=P.right+12; if(x+w>innerWidth-8)x=Math.max(8,P.left-w-12); lyTip.style.left=x+'px'; lyTip.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top+r.height/2-h/2))+'px' }; list.addEventListener('scroll',lyIdle,{passive:true});
  L.forEach(x=>{ const li=document.createElement('li'); li.dataset.id=x.id; const cs=x.cond.map(k=>CONDS.find(c=>c.key===k)).filter(Boolean);
    const ab=c=>{ const p=document.querySelector(`.pin[data-k="${c.key}"]`); return p?(p.dataset.short||p.textContent):c.name };
    li.innerHTML=`<i style="background:${x.c}"></i><div><div class="lyrow"><b>${esc(x.n)}</b>${cs.length?'<p>'+cs.map(c=>`<button data-k="${c.key}" style="--c:${getComputedStyle(document.querySelector(`.pin[data-k="${c.key}"]`)||document.body).getPropertyValue('--c')||'#f99'}">${esc(ab(c))}</button>`).join('')+'</p>':''}</div><small>${esc(x.s)}</small></div>`; list.appendChild(li) });
@@ -4406,14 +4549,14 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
  { const _tkA=nxTick; nxTick=function(dt,now){ _tkA(dt,now); const k=Math.min(1,dt*9); U_.lyrA.value+=(want-U_.lyrA.value)*k; U_.lyrCol.value.lerp(colT,k); if(want===0&&U_.lyrA.value<0.01){ U_.lyrA.value=0; U_.lyr.value=0 } } }
  function enter(){ if(on)return; on=true; document.body.classList.add('layersmode'); setTimeout(()=>{ if(!activeCond&&!pulled)frameCamera(); else sliceDirty=true },30); document.getElementById('tbLayers').setAttribute('aria-pressed','true');
    saved={mode,head:headOn,labelsOff:window.__labelsOff,plane}; if(!pulled&&plane==='none'){ const sb=document.querySelector('[data-plane="sag"]'); if(sb)sb.click() } if(!pulled){ if(mode!==4){ const b=document.querySelector('[data-mode="4"]'); if(b)b.click() } if(!headOn)setHead(true) } }
- function leave(){ if(!on)return; on=false; document.body.classList.remove('layersmode'); setTimeout(()=>{ if(!activeCond&&!pulled)frameCamera(); else sliceDirty=true },30); document.getElementById('tbLayers').setAttribute('aria-pressed','false'); light(0);
+ function leave(){ if(!on)return; on=false; if(typeof lyIdle==='function')lyIdle(); document.body.classList.remove('layersmode'); setTimeout(()=>{ if(!activeCond&&!pulled)frameCamera(); else sliceDirty=true },30); document.getElementById('tbLayers').setAttribute('aria-pressed','false'); light(0);
    if(saved&&!pulled&&saved.plane==='none'&&plane==='sag'&&!saved.userPlane&&!activeCond){ const wb=document.querySelector('[data-plane="none"]'); if(wb)wb.click() }
    if(saved&&!pulled){ if(saved.mode!==mode){ const b=document.querySelector(`[data-mode="${saved.mode}"]`); if(b)b.click() } if(saved.head!==headOn)setHead(saved.head) } saved=null }
  document.getElementById('tbLayers').addEventListener('click',()=>on?leave():enter());
  panel.querySelector('.lyx').onclick=leave;
  list.addEventListener('mouseover',e=>{ const li=e.target.closest('li'); if(!li)return; hovRow=li; light(+li.dataset.id);
-   const b=e.target.closest('button[data-k]'); if(b){ const c=CONDS.find(x=>x.key===b.dataset.k); const e2=c&&NXC[c.nx]; const d=String((e2&&(e2.gloss||e2.simple))||c.tag||'').replace(/<[^>]+>/g,''); tip.innerHTML=`<b>${esc(c.name)}</b><span>${esc(d)}</span><em>Click to play it</em>`; tip.classList.remove('gtip'); tip.classList.add('htip'); tip.style.display='block'; const r=b.getBoundingClientRect(); tip.style.left=Math.min(innerWidth-300,panel.getBoundingClientRect().right+10)+'px'; tip.style.top=Math.max(8,Math.min(innerHeight-tip.offsetHeight-8,r.top-10))+'px' } else if(tip.classList.contains('htip'))tip.style.display='none' });
- list.addEventListener('mouseleave',()=>{ hovRow=null; light(0); if(tip.classList.contains('htip'))tip.style.display='none' });
+   const b=e.target.closest('button[data-k]'); if(b){ const c=CONDS.find(x=>x.key===b.dataset.k); const e2=c&&NXC[c.nx]; const d=String((e2&&(e2.gloss||e2.simple))||c.tag||'').replace(/<[^>]+>/g,''); lyShow(`<b>${esc(c.name)}</b><span>${esc(d)}</span><em>Click to play it</em>`,b); if(tip.classList.contains('htip'))tip.style.display='none' } else { const nm=li.querySelector('b'), sm=li.querySelector('small'); if(sm&&sm.textContent.trim())lyShow(`<b>${esc(nm?nm.textContent:'')}</b><span>${esc(sm.textContent)}</span>`,nm||li); else lyIdle() } });
+ list.addEventListener('mouseleave',()=>{ hovRow=null; light(0); if(tip.classList.contains('htip'))tip.style.display='none' }); list.addEventListener('mouseleave',lyIdle);
  list.addEventListener('click',e=>{ const b=e.target.closest('button[data-k]'); if(!b)return; const c=CONDS.find(x=>x.key===b.dataset.k); if(c){ tip.style.display='none'; openCond(c) } });
  /* pointing at the cut lights the matching row */
  const rowFor=id=>{ if(!id)return 0; if(id>=160&&id<=167)return id; if(id===168||id===175||id===176||id===177)return 163; if(id===173)return 164; if(id===174)return 165; if(id===169||id===170||id===171||id===179)return 166; if(id===172)return 162;
@@ -4529,8 +4672,11 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
 /* ================= welcome window and a watch-along tour ================= */
 {
  const KEY='nx.welcome.hide'; const store2={get(){ try{return localStorage.getItem(KEY)}catch(e){return null} },set(v){ try{ v?localStorage.setItem(KEY,'1'):localStorage.removeItem(KEY) }catch(e){} }};
+ const TCH=matchMedia('(hover: none)').matches;
+ /* the guides speak touch on phones and tablets */
+ const T=str=>!TCH?str:String(str).replace(/Right-click/g,'Press and hold').replace(/right-click/g,'press and hold').replace(/Point at/g,'Tap').replace(/point at/g,'tap').replace(/\bClicks\b/g,'Taps').replace(/\bclicks\b/g,'taps').replace(/\bClick\b/g,'Tap').replace(/\bclick\b/g,'tap').replace(/scroll to zoom/g,'pinch to zoom');
  const dlg=document.createElement('div'); dlg.id='welcome'; dlg.setAttribute('role','dialog'); dlg.setAttribute('aria-modal','true'); dlg.setAttribute('aria-labelledby','wlT');
- dlg.innerHTML=`<div class="wlc"><button class="wlx" aria-label="Close">\u00d7</button>
+ dlg.innerHTML=(TCH?T(`<div class="wlc"><button class="wlx" aria-label="Close">\u00d7</button>
   <div class="wlv wl1"><h2 id="wlT">Welcome to Cereastra</h2><p>A cut-away brain you can turn, slice and explore, with the conditions that happen inside it.</p>
    <div class="wlh">Watch a tour. It clicks through for you.</div>
    <div class="wlb tours"><button class="wlp" data-a="tour" data-t="main">\u25B6 The main features<small>Click, entries, pull a piece out, Layers and a condition. About a minute.</small></button>
@@ -4541,7 +4687,26 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
    <div class="wlb">
    <button data-a="basics">Show me the basics<small>A one-screen cheat sheet.</small></button>
    <button data-a="go">Explore on my own</button></div>
-   <label class="wlchk"><input type="checkbox" id="wlHide"> Don't show this again</label>
+   <p class="wllegal">For education only. Not medical advice, diagnosis or treatment. By using Cereastra you agree to the <button type="button" data-legal="terms">Terms of use</button> and <button type="button" data-legal="privacy">Privacy policy</button>.</p></div>
+  `)+`<div class="wlv wl2"><h2>The basics</h2><ul>
+   <li><b>Tap</b> anything on the brain to see what it is and what goes wrong there. Tap the star in that card to open the full entry, then <b>Explain more</b>.</li>
+   <li><b>Drag one finger</b> to turn, <b>pinch</b> to zoom, and <b>drag two fingers</b> to pan. The slider at the bottom moves the cut, and it snaps back to the start.</li>
+   <li><b>Press and hold</b> anything for options that fit what you picked. It works on regions, labels, pins, the list, search results and the Layers rows, and includes <b>Pull it out</b> to inspect a piece on its own.</li>
+   <li><b>Whole</b> in View shows the entire brain, colored by what each area does in Atlas colors. Press and hold a spot on it to cut straight through that point.</li>
+   <li><b>Conditions</b> in the top bar shows every condition as a pin on the brain. Tap a pin, then tap it again to play it.</li>
+   <li><b>Layers</b> lays out everything from scalp to ventricles. Tap a layer to light it, and tap a condition to play it with a close-up. With a piece pulled out, it shows that piece's own layers.</li>
+   <li><b>View</b> holds the cuts, colors and layers. The <b>Cereastra</b> logo has reset and this guide.</li></ul>
+   <div class="wlb row"><button class="wlp" data-a="tour" data-t="main">\u25B6 Watch the main tour</button><button data-a="go">Got it</button></div></div></div>`:`<div class="wlc"><button class="wlx" aria-label="Close">\u00d7</button>
+  <div class="wlv wl1"><h2 id="wlT">Welcome to Cereastra</h2><p>A cut-away brain you can turn, slice and explore, with the conditions that happen inside it.</p>
+   <div class="wlh">Watch a tour. It clicks through for you.</div>
+   <div class="wlb tours"><button class="wlp" data-a="tour" data-t="main">\u25B6 The main features<small>Click, entries, pull a piece out, Layers and a condition. About a minute.</small></button>
+   <button data-a="tour" data-t="cond">\u25B6 Learn about a condition<small>Find it, play its stages, read the vitals and the explanation.</small></button>
+   <button data-a="tour" data-t="locate">\u25B6 Locate a disease in its surroundings<small>See which layers and structures sit around a lesion.</small></button>
+   <button data-a="tour" data-t="find">\u25B6 Find any structure<small>Search, show it on the cut, pull it out.</small></button>
+   <button data-a="tour" data-t="slice">\u25B6 Slice and color the brain<small>Planes, the slider, color modes and layers.</small></button></div>
+   <div class="wlb">
+   <button data-a="basics">Show me the basics<small>A one-screen cheat sheet.</small></button>
+   <button data-a="go">Explore on my own</button></div>
    <p class="wllegal">For education only. Not medical advice, diagnosis or treatment. By using Cereastra you agree to the <button type="button" data-legal="terms">Terms of use</button> and <button type="button" data-legal="privacy">Privacy policy</button>.</p></div>
   <div class="wlv wl2"><h2>The basics</h2><ul>
    <li><b>Click</b> anything on the brain to see what it is and what goes wrong there. Click the star in that card to open the full entry, then <b>Explain more</b>.</li>
@@ -4551,10 +4716,8 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
    <li><b>Conditions</b> in the top bar shows every condition as a pin on the brain. Click a pin, then click again to play it.</li>
    <li><b>Layers</b> lays out everything from scalp to ventricles. Point at a layer to light it, click a condition to play it with a close-up. With a piece pulled out, it shows that piece's own layers.</li>
    <li><b>View</b> holds the cuts, colors and layers. The <b>Cereastra</b> logo has reset and this guide.</li></ul>
-   <div class="wlb row"><button class="wlp" data-a="tour" data-t="main">\u25B6 Watch the main tour</button><button data-a="go">Got it</button></div></div></div>`;
+   <div class="wlb row"><button class="wlp" data-a="tour" data-t="main">\u25B6 Watch the main tour</button><button data-a="go">Got it</button></div></div></div>`);
  document.body.appendChild(dlg);
- const hideBox=dlg.querySelector('#wlHide'); hideBox.checked=!!store2.get();
- hideBox.onchange=()=>store2.set(hideBox.checked);
  let lastFocus=null; const open=(view)=>{ lastFocus=document.activeElement; dlg.classList.remove('v2'); if(view===2)dlg.classList.add('v2'); dlg.classList.add('on'); setTimeout(()=>{ const b=dlg.querySelector(view===2?'.wl2 .wlp':'.wl1 .wlp'); b&&b.focus() },50) };
  const close=()=>{ dlg.classList.remove('on'); if(lastFocus&&lastFocus.focus&&document.contains(lastFocus))try{ lastFocus.focus({preventScroll:true}) }catch(e){} };
  dlg.addEventListener('keydown',e=>{ if(e.key!=='Tab')return; const f=[...dlg.querySelectorAll('button,input,[tabindex]:not([tabindex="-1"])')].filter(x=>x.offsetParent!==null); if(!f.length)return; const i=f.indexOf(document.activeElement); if(e.shiftKey&&(i<=0)){ e.preventDefault(); f[f.length-1].focus() } else if(!e.shiftKey&&i===f.length-1){ e.preventDefault(); f[0].focus() } });
@@ -4564,15 +4727,14 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
  addEventListener('keydown',e=>{ if(e.key==='Escape'&&dlg.classList.contains('on')){ close(); e.stopImmediatePropagation() } },true);
  /* Show tips now opens this window */
  document.getElementById('showTips').onclick=()=>{ const st=document.getElementById('tbSettings'); if(st&&st.getAttribute('aria-pressed')==='true')st.click(); open(1) };
- /* shown once the opening animation has landed, unless you asked not to */
- { let tries=0; const wait=()=>{ tries++; if(document.body.classList.contains('booting')||document.body.classList.contains('intro')){ if(tries<200)setTimeout(wait,250); return } if(!store2.get()&&!/^#./.test(location.hash))setTimeout(()=>open(1),600) }; setTimeout(wait,1500) }
+ /* no startup pop-ups: the welcome window opens only from the Cereastra menu */
 
  /* ---------- the tour: a visible pointer clicks through real features, with a caption for each step ---------- */
  const cur=document.createElement('div'); cur.id='tourCur'; cur.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.3L4 18z" fill="#fff" stroke="#0b1024" stroke-width="1.4" stroke-linejoin="round"/></svg><i></i>'; document.body.appendChild(cur);
  const cap=document.createElement('div'); cap.id='tourCap'; cap.innerHTML='<div class="tcn"></div><b></b><span></span><div class="tcb"><button data-a="pause">Pause</button><button data-a="stop">End tour</button></div>'; document.body.appendChild(cap);
  let run=0, paused=false;
  const sleep=ms=>{ if(!run)return Promise.reject(new Error('tour-stopped')); return new Promise((res,rej)=>{ const t0=performance.now(); const f=()=>{ if(!run){ rej(new Error('tour-stopped')); return } if(paused){ requestAnimationFrame(f); return } if(performance.now()-t0>=ms)res(); else requestAnimationFrame(f) }; f() }) };
- const say=(n,title,text)=>{ if(!run)return; cap.querySelector('.tcn').textContent=n; cap.querySelector('b').textContent=title; cap.querySelector('span').textContent=text; cap.classList.add('on') };
+ const say=(n,title,text)=>{ if(!run)return; title=T(title); text=T(text); cap.querySelector('.tcn').textContent=n; cap.querySelector('b').textContent=title; cap.querySelector('span').textContent=text; cap.classList.add('on') };
  let cx=innerWidth/2, cy=innerHeight/2;
  const HALT='tour-stopped'; const halt=()=>{ if(!run)throw new Error(HALT) };
  const move=async(x,y,ms=750)=>{ halt(); cur.style.transition=`transform ${ms}ms cubic-bezier(.4,0,.2,1)`; cur.style.transform=`translate(${x}px,${y}px)`; cx=x; cy=y; await sleep(ms+60) };
@@ -4617,7 +4779,7 @@ window.__dbgCam=()=>({pos:camera.position.toArray().map(v=>+v.toFixed(1)),tgt:co
    /* 5. the condition panel */
    say('6 / 6','Every condition tells its story','Step through the stages, open it as a card, or explore the pathways it breaks.');
    const oc=findBtn('#info button',/Open as card/); if(oc){ await onEl(oc); await ripple(); oc.click(); await sleep(3000); const fv=findBtn('#info button',/Full view/); if(fv){ await onEl(fv); await ripple(); fv.click() } } await sleep(2200);
-   say('Done','You’re set','Reopen this tour any time from the Cereastra logo or View, Show tips.'); await sleep(2600);
+   say('Done','You’re set','Every tour is in the Cereastra menu under Guide and tour.'); await sleep(2600);
    } catch(err){ if(!err||err.message!=='tour-stopped')console.error(err) } finally { if(run===me){ run=0; await reset(); document.body.classList.remove('touring'); cur.classList.remove('on'); cap.classList.remove('on'); frameCamera() } }
  }
  function stopTour(user){ if(!run)return; run=0; paused=false; const clean=()=>{ document.body.classList.remove('touring'); cur.classList.remove('on'); cap.classList.remove('on') };
